@@ -35,3 +35,13 @@ void addMap(Map *map, void *data, int (*hash)(void *data))
     int hashValue = hash(data);
     printf("hashValue: %d\n", hashValue);
 }
+
+void *findMap(Map *map, void *data, int (*hash)(void *data))
+{
+
+}
+
+void *delMap(Map *map, void *data, int (*hash)(void *data))
+{
+
+}
