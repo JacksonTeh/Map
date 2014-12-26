@@ -19,16 +19,19 @@ void test_createMap_should_return_a_Map(void)
     TEST_ASSERT_NOT_NULL(map);
     TEST_ASSERT_EQUAL(10, map->size);
     TEST_ASSERT_NOT_NULL(map->table);
+    // TEST_ASSERT_NULL(map->table[0]->data);
+
+    destroyMap(map);
 }
 
-void test_destroyMap_should_return_all_resources(void)
+void xtest_destroyMap_should_return_all_resources(void)
 {
 	Map *map = createMap(10);
 
     destroyMap(map);
 }
 
-void test_addMap_given_ali_should_add_in_slot_4(void)
+void xtest_addMap_given_ali_should_add_in_slot_4(void)
 {
     LinkedList *firstList;
     Student ali = {.name = "ali", .age = 10};
