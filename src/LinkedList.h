@@ -17,6 +17,6 @@ LinkedList *createdNewLinkedList(void *data);
 void destroyAllLinkedLists(LinkedList *firstList);
 LinkedList *findLinkedList(LinkedList **listPtr, void *data, int (*compare)(void *dataInCollection, void *data));
 void addLinkedList(LinkedList **listPtr, LinkedList *newList);
-void removeLinkedList(LinkedList **listPtr, LinkedList *listToRemove);
+void removeLinkedList(LinkedList **listPtr, LinkedList **listToRemove);
 
 #endif // LinkedList_H

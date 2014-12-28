@@ -26,10 +26,8 @@ void test_createdNewLinkedList_should_create_a_new_linked_list(void)
 void test_addLinkedList_given_NULL_in_the_list_should_add_ali_to_the_list(void)
 {
     Student ali = {.name = "ali", .age = 15};
-    LinkedList *list;
+    LinkedList *list = NULL;
     LinkedList *newList = createdNewLinkedList((void *)&ali);
-
-    list = NULL;
 
 	addLinkedList(&list, newList);
 
@@ -80,6 +78,7 @@ void test_addLinkedList_given_abu_and_bobo_in_the_list_should_add_ali_to_the_lis
     TEST_ASSERT_NOT_NULL(firstList->next->data);
     TEST_ASSERT_NOT_NULL(firstList->next->next);
     TEST_ASSERT_NOT_NULL(firstList->next->next->data);
+    TEST_ASSERT_NULL(firstList->next->next->next);
     TEST_ASSERT_EQUAL_PTR(newList, firstList->next->next);
     TEST_ASSERT_EQUAL_PTR((void *)&ali, firstList->next->next->data);
 
@@ -118,6 +117,7 @@ void test_findLinkedList_given_abu_bobo_and_ali_in_the_list_should_find_abu_in_t
 
     TEST_ASSERT_NOT_NULL(foundList);
     TEST_ASSERT_NOT_NULL(foundList->data);
+    TEST_ASSERT_EQUAL_PTR(firstList, foundList);
     TEST_ASSERT_EQUAL_PTR((void *)&abu, foundList->data);
 
     destroyAllLinkedLists(firstList);
@@ -140,6 +140,7 @@ void test_findLinkedList_given_abu_bobo_and_ali_in_the_list_should_find_bobo_in_
 
     TEST_ASSERT_NOT_NULL(foundList);
     TEST_ASSERT_NOT_NULL(foundList->data);
+    TEST_ASSERT_EQUAL_PTR(secondList, foundList);
     TEST_ASSERT_EQUAL_PTR((void *)&bobo, foundList->data);
 
     destroyAllLinkedLists(firstList);
@@ -162,6 +163,7 @@ void test_findLinkedList_given_abu_bobo_and_ali_in_the_list_should_find_ali_in_t
 
     TEST_ASSERT_NOT_NULL(foundList);
     TEST_ASSERT_NOT_NULL(foundList->data);
+    TEST_ASSERT_EQUAL_PTR(lastList, foundList);
     TEST_ASSERT_EQUAL_PTR((void *)&ali, foundList->data);
 
     destroyAllLinkedLists(firstList);
@@ -196,12 +198,14 @@ void test_removeLinkedList_given_abu_bobo_and_ali_in_the_list_should_remove_firs
     LinkedList *firstList = createdNewLinkedList((void *)&abu);
     LinkedList *secondList = createdNewLinkedList((void *)&bobo);
     LinkedList *lastList = createdNewLinkedList((void *)&ali);
+    LinkedList *removeList = firstList;
 
     firstList->next = secondList;
     secondList->next = lastList;
 
-    removeLinkedList(&firstList, firstList);
+    removeLinkedList(&firstList, &removeList);
 
+    TEST_ASSERT_NULL(removeList);
     TEST_ASSERT_NOT_NULL(firstList);
     TEST_ASSERT_NOT_NULL(firstList->data);
     TEST_ASSERT_NOT_NULL(firstList->next);
@@ -222,12 +226,14 @@ void test_removeLinkedList_given_abu_bobo_and_ali_in_the_list_should_remove_seco
     LinkedList *firstList = createdNewLinkedList((void *)&abu);
     LinkedList *secondList = createdNewLinkedList((void *)&bobo);
     LinkedList *lastList = createdNewLinkedList((void *)&ali);
+    LinkedList *removeList = secondList;
 
     firstList->next = secondList;
     secondList->next = lastList;
 
-    removeLinkedList(&firstList, secondList);
+    removeLinkedList(&firstList, &removeList);
 
+    TEST_ASSERT_NULL(removeList);
     TEST_ASSERT_NOT_NULL(firstList);
     TEST_ASSERT_NOT_NULL(firstList->data);
     TEST_ASSERT_NOT_NULL(firstList->next);
@@ -248,12 +254,14 @@ void test_removeLinkedList_given_abu_bobo_and_ali_in_the_list_should_remove_last
     LinkedList *firstList = createdNewLinkedList((void *)&abu);
     LinkedList *secondList = createdNewLinkedList((void *)&bobo);
     LinkedList *lastList = createdNewLinkedList((void *)&ali);
+    LinkedList *removeList = lastList;
 
     firstList->next = secondList;
     secondList->next = lastList;
 
-    removeLinkedList(&firstList, lastList);
+    removeLinkedList(&firstList, &removeList);
 
+    TEST_ASSERT_NULL(removeList);
     TEST_ASSERT_NOT_NULL(firstList);
     TEST_ASSERT_NOT_NULL(firstList->data);
     TEST_ASSERT_NOT_NULL(firstList->next);
@@ -282,7 +290,7 @@ void test_removeLinkedList_given_abu_bobo_and_ali_in_the_list_and_remove_list_sh
     secondList->next = lastList;
 
     Try{
-        removeLinkedList(&firstList, list);
+        removeLinkedList(&firstList, &list);
         TEST_FAIL_MESSAGE("Should generate an exception due to ERR_LIST_UNAVAILABLE.");
     } Catch(err){
         TEST_ASSERT_EQUAL_MESSAGE(ERR_LIST_UNAVAILABLE, err, "Expected ERR_LIST_UNAVAILABLE exception");

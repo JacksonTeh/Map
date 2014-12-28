@@ -64,15 +64,20 @@ void addLinkedList(LinkedList **listPtr, LinkedList *newList)
         addLinkedList(&(*listPtr)->next, newList);
 }
 
-void removeLinkedList(LinkedList **listPtr, LinkedList *listToRemove)
+void removeLinkedList(LinkedList **listPtr, LinkedList **listToRemove)
 {
     LinkedList *list = *listPtr;
 
     if(list == NULL)
         Throw(ERR_LIST_UNAVAILABLE);
 
-    if(list == listToRemove)
+    if(list == *listToRemove)
+    {
         *listPtr = (*listPtr)->next;
+        (*listToRemove)->next = NULL;
+        destroyAllLinkedLists(*listToRemove);
+        *listToRemove = NULL;
+    }
     else
         removeLinkedList(&list->next, listToRemove);
 }
